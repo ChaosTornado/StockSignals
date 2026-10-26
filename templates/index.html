@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>港股领航指标看板</title>
+    <style>
+        body { font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+               max-width: 1400px; margin: 0 auto; padding: 16px 20px 60px; color: #222; }
+        h2 { margin-bottom: 4px; }
+        .meta { color: #666; font-size: 13px; margin-bottom: 12px; }
+        .note { background: #fff8e6; border: 1px solid #f0d48a; border-radius: 6px;
+                padding: 10px 14px; font-size: 13px; color: #6b5400; margin-bottom: 16px; }
+        .chart-box { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 10px; }
+        h3 { margin-top: 28px; }
+        table.data-table { border-collapse: collapse; width: 100%; font-size: 12.5px; margin-top: 8px; }
+        table.data-table th, table.data-table td { border: 1px solid #d9d9d9; padding: 5px 8px; text-align: right; }
+        table.data-table th { background: #f2f2f2; font-weight: 600; }
+        table.data-table td:first-child { text-align: left; }
+        .refresh-btn { background: #1677ff; color: #fff; border: none; border-radius: 6px;
+                       padding: 8px 20px; font-size: 14px; cursor: pointer; margin-top: 14px; }
+        .refresh-btn:hover { background: #4096ff; }
+        .range-box { background: #f6f8fa; border: 1px solid #e5e6eb; border-radius: 8px;
+                     padding: 10px 14px; margin: 12px 0; display: flex; flex-wrap: wrap;
+                     align-items: center; gap: 10px; font-size: 14px; color: #333; }
+        .range-box input[type=month] { font-size: 14px; padding: 5px 8px; border: 1px solid #c9cdd4;
+                     border-radius: 6px; }
+        .range-btn { background: #fff; border: 1px solid #1677ff; color: #1677ff; border-radius: 6px;
+                     padding: 6px 18px; font-size: 14px; cursor: pointer; }
+        .range-btn:hover { background: #e6f4ff; }
+        .range-btn.primary { background: #1677ff; color: #fff; }
+        .range-btn.primary:hover { background: #4096ff; }
+        .foot { margin-top: 24px; color: #999; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h2>港股领航指标看板</h2>
+    <div class="meta">共 {{ data_count }} 个月数据 · 最新数据月：{{ last_date }} · 数据源：akshare（免费公开宏观数据）</div>
+    <div class="note">
+        口径：领航指标 = 港元M2同比×25% + 内地PPI同比×25% + 社零同比×25% + 信用脉冲×25%；<br>
+        曲线展示为 <b>领航指标原始值</b>（与 Excel 表格口径一致，无需历史预热）；信用脉冲 = (近6月社融增量 − 去年同期6月社融增量) ÷ 最近两季度名义GDP。<br>
+        说明：社零1-2月为官方合并值（按统计局口径填充至1、2月）；数据随官方发布自动更新，最新月份部分指标未发布时留空。
+    </div>
+    <div class="chart-box">{{ chart_html|safe }}</div>
+    <div class="range-box">
+        <span>数据起点：</span>
+        <input type="month" id="startDateInput" title="数据起点月份" value="{{ start_date[:7] }}">
+        <button class="range-btn primary" onclick="saveStartDate()">保存起点</button>
+        <span id="startDateHint" style="color:#888;font-size:13px;"></span>
+        <span style="color:#c9cdd4;margin:0 6px;">|</span>
+        <span>时间范围：</span>
+        <input type="month" id="startMon" title="起始月份">
+        <span>至</span>
+        <input type="month" id="endMon" title="结束月份">
+        <button class="range-btn" onclick="applyRange()">应用</button>
+        <button class="range-btn" onclick="resetRange()">重置</button>
+        <span id="rangeHint" style="color:#888;font-size:13px;"></span>
+    </div>
+    <button class="refresh-btn" onclick="location.reload()">↻ 刷新数据</button>
+    <h3>原始数据表</h3>
+    <div>{{ table_html|safe }}</div>
+    <div class="foot">本地服务：python hk_lead_index_web.py · 端口 8000</div>
+    <script>
+    (function () {
+        // 从表格第一/最后一行自动设定默认范围
+        function firstLastMonth() {
+            var rows = document.querySelectorAll('table.data-table tbody tr');
+            if (!rows.length) return null;
+            function mon(tr) {
+                var t = (tr.querySelector('td') || {}).textContent || '';
+                return t.trim().slice(0, 7); // YYYY-MM
+            }
+            return { first: mon(rows[0]), last: mon(rows[rows.length - 1]) };
+        }
+        function setDefaults() {
+            var r = firstLastMonth();
+            if (!r) return;
+            var s = document.getElementById('startMon'), e = document.getElementById('endMon');
+            if (!s || !e) return;
+            s.value = r.first; e.value = r.last;
+        }
+        function getPlotDiv() {
+            var divs = document.querySelectorAll('.js-plotly-plot, .plotly-graph-div');
+            return divs.length ? divs[0] : null;
+        }
+        function applyRange() {
+            var s = document.getElementById('startMon').value;
+            var e = document.getElementById('endMon').value;
+            var hint = document.getElementById('rangeHint');
+            if (!s || !e) { if (hint) hint.textContent = '请选择起止月份'; return; }
+            if (s > e) { if (hint) hint.textContent = '起始月份不能晚于结束月份'; return; }
+            var lastDay = function (ym) {
+                var p = ym.split('-');
+                return new Date(+p[0], +p[1], 0).getDate();
+            };
+            var sFull = s + '-01';
+            var eFull = e + '-' + lastDay(e);
+            var plot = getPlotDiv();
+            if (plot && window.Plotly && plot.data && plot.data.length) {
+                Plotly.relayout(plot, {
+                    'xaxis.range': [sFull, eFull],
+                    'yaxis.autorange': true,
+                    'yaxis2.autorange': true,
+                });
+            }
+            // 过滤表格
+            var rows = document.querySelectorAll('table.data-table tbody tr');
+            var shown = 0;
+            rows.forEach(function (tr) {
+                var m = ((tr.querySelector('td') || {}).textContent || '').trim().slice(0, 7);
+                var ok = (m >= s && m <= e);
+                tr.style.display = ok ? '' : 'none';
+                if (ok) shown++;
+            });
+            if (hint) hint.textContent = '已显示 ' + s + ' ~ ' + e + '（' + shown + ' 个月）';
+        }
+        function resetRange() {
+            setDefaults();
+            var plot = getPlotDiv();
+            if (plot && window.Plotly) Plotly.relayout(plot, {
+                'xaxis.autorange': true,
+                'yaxis.autorange': true,
+                'yaxis2.autorange': true,
+            });
+            var rows = document.querySelectorAll('table.data-table tbody tr');
+            rows.forEach(function (tr) { tr.style.display = ''; });
+            var hint = document.getElementById('rangeHint');
+            if (hint) hint.textContent = '';
+        }
+        function saveStartDate() {
+            var input = document.getElementById('startDateInput');
+            var hint = document.getElementById('startDateHint');
+            var v = input ? input.value : '';
+            if (!v) { if (hint) hint.textContent = '请选择起始月份'; return; }
+            if (hint) { hint.textContent = '保存中…'; hint.style.color = '#888'; }
+            fetch('/api/start_date', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ start_date: v })
+            }).then(function (r) { return r.json(); }).then(function (j) {
+                if (j.ok) {
+                    if (hint) { hint.textContent = '已保存，正在刷新数据…'; hint.style.color = '#0a7d3c'; }
+                    setTimeout(function () { location.reload(); }, 300);
+                } else {
+                    if (hint) { hint.textContent = '保存失败：' + (j.error || '未知错误'); hint.style.color = '#b42318'; }
+                }
+            }).catch(function (e) {
+                if (hint) { hint.textContent = '保存失败：' + e.message; hint.style.color = '#b42318'; }
+            });
+        }
+        window.applyRange = applyRange;
+        window.resetRange = resetRange;
+        window.saveStartDate = saveStartDate;
+        setDefaults();
+    })();
+    </script>
+</body>
+</html>

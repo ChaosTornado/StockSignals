@@ -1,0 +1,10 @@
+﻿python :   File "<string>", line 5
+所在位置 行:1 字符: 105
++ ... txt" | Select-Object Length; cd D:\Projects\StockSignals; python -c "
++                                                               ~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (  File "<string>", line 5:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    m = re.search(r'Plotly.newPlot\(\s*[" \x27]chart[\\x27]\s*,\s*(\[.*?\])\s*,\s*\{',
+                 ^
+SyntaxError: '(' was never closed
