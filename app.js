@@ -1,6 +1,9 @@
 (function () {
   "use strict";
 
+  var APP_BASE_PATH = document.currentScript
+    ? new URL(".", document.currentScript.src).pathname.replace(/\/$/, "")
+    : "";
   var SETTINGS_KEY = "hk-leading-indicator-settings-v1";
   var FIELD_NAMES = ["M2", "PPI", "RETAIL", "CREDIT"];
   var FIELD_LABELS = ["港元 M2 同比", "内地 PPI 同比", "内地社零同比", "信用脉冲"];
@@ -12,6 +15,10 @@
   var calculations = null;
   var saveQueue = Promise.resolve();
   var saveRevision = 0;
+
+  function appPath(path) {
+    return APP_BASE_PATH + path;
+  }
 
   function cloneRows(value) {
     return value.map(function (row) {
@@ -38,7 +45,7 @@
   }
 
   function loadRowsFromCsv() {
-    return fetch("/api/data", { cache: "no-store" })
+    return fetch(appPath("/api/data"), { cache: "no-store" })
       .then(function (response) {
         if (!response.ok) throw new Error("CSV API returned " + response.status);
         return response.json();
@@ -63,7 +70,7 @@
     var payload = JSON.stringify(rows);
     setDataStatus("正在保存 CSV", "saving");
     saveQueue = saveQueue.catch(function () {}).then(function () {
-      return fetch("/api/data", {
+      return fetch(appPath("/api/data"), {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: payload
@@ -115,7 +122,7 @@
     document.querySelectorAll(".data-input").forEach(function (input) { input.disabled = true; });
     document.getElementById("reset-button").disabled = true;
     setUpdateStatus("正在从 AkShare、人民银行、国家统计局和香港金管局抓取数据，请稍候…", "");
-    return fetch("/api/update", {
+    return fetch(appPath("/api/update"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(rangeValue)
@@ -699,7 +706,7 @@
     var status = document.getElementById("source-doc-status");
     status.classList.remove("error");
     status.textContent = "正在加载来源文档…";
-    fetch("/docs/数据获取来源.md", { cache: "no-store" })
+    fetch(appPath("/docs/数据获取来源.md"), { cache: "no-store" })
       .then(function (response) {
         if (!response.ok) throw new Error("文档读取失败（HTTP " + response.status + "）");
         return response.text();

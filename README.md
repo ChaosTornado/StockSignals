@@ -10,6 +10,36 @@
 
 然后访问 <http://localhost:4174>。如果 4174 已被其他服务占用，可改用 `--port 4175` 并访问对应地址。首次启动会在工程目录的 `data/data.csv` 创建 CSV 文件。
 
+## Nginx 子路径部署
+
+在部署服务器启动 Python 服务：`python3 server.py --host 127.0.0.1 --port 4174`。
+前端根据 `app.js` 的地址自动识别应用路径，支持根路径或 `/stocksignals/`。
+将下面配置放进现有站点的 `server { ... }` 内（Nginx 与 Python 服务在同一机器时）：
+
+```nginx
+location = /stocksignals {
+    return 301 /stocksignals/$is_args$args;
+}
+
+location ^~ /stocksignals/ {
+    proxy_pass http://127.0.0.1:4174/;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_connect_timeout 10s;
+    proxy_read_timeout 600s;
+    proxy_send_timeout 600s;
+    client_max_body_size 10m;
+    proxy_cache off;
+}
+```
+
+`proxy_pass` 的尾部 `/` 会移除应用前缀，例如 `/stocksignals/api/data` 转发为 `/api/data`。
+`proxy_read_timeout` 留足宏观数据自动更新所需时间。
+执行 `sudo nginx -t && sudo systemctl reload nginx` 后，通过站点的 `/stocksignals/` 访问。
+
 ## 指标逻辑
 
 - 港元 M2 同比、内地 PPI 同比、内地社零同比和信用脉冲各占 25%，四项齐全时计算等权平均。
