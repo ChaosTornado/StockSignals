@@ -1,0 +1,121 @@
+- generic [ref=f1e2]:
+  - banner [ref=f1e3]:
+    - link "港股领航指标首页" [ref=f1e4] [cursor=pointer]:
+      - /url: "#"
+      - generic [ref=f1e9]:
+        - strong [ref=f1e10]: 港股领航指标
+        - generic [ref=f1e11]: HONG KONG LEADING INDICATOR
+    - generic [ref=f1e12]:
+      - generic [ref=f1e13]: 已同步 CSV
+      - tablist "页面视图" [ref=f1e15]:
+        - tab "指标总览" [ref=f1e16] [cursor=pointer]
+        - tab "数据来源" [active] [selected] [ref=f1e17] [cursor=pointer]
+      - link "数据录入" [ref=f1e18] [cursor=pointer]:
+        - /url: "#data-entry"
+      - button "导出 CSV" [ref=f1e19] [cursor=pointer]
+  - main [ref=f1e22]:
+    - tabpanel "数据来源" [ref=f1e677]:
+      - generic [ref=f1e678]:
+        - generic [ref=f1e679]:
+          - generic [ref=f1e680]: 数据透明 · 来源与口径
+          - heading "数据来源说明" [level=1] [ref=f1e682]
+          - paragraph [ref=f1e683]: 查看各项指标的数据来源、更新节奏与信用脉冲计算口径。
+        - generic [ref=f1e684]: 项目文档 · docs/数据获取来源.md
+      - article "数据来源文档" [ref=f1e685]:
+        - status [ref=f1e686]: 内容来自工程目录 docs/数据获取来源.md
+        - generic [ref=f1e687]:
+          - heading "一、4 个指标的具体数据来源" [level=2] [ref=f1e688]
+          - list [ref=f1e689]:
+            - listitem [ref=f1e690]:
+              - strong [ref=f1e691]: 港元 M2 同比
+              - list [ref=f1e692]:
+                - listitem [ref=f1e693]: 官方来源：香港金融管理局（HKMA）官网，每月发布的《货币统计数字》
+                - listitem [ref=f1e694]:
+                  - text: 直接获取：
+                  - list [ref=f1e695]:
+                    - listitem [ref=f1e696]:
+                      - text: 官网链接：
+                      - link "https://www.hkma.gov.hk/chi/news-and-media/press-releases/" [ref=f1e697] [cursor=pointer]:
+                        - /url: https://www.hkma.gov.hk/chi/news-and-media/press-releases/
+                    - listitem [ref=f1e698]:
+                      - text: 也可通过 API 获取：
+                      - link "https://apidocs.hkma.gov.hk/gb_chi/documentation/market-data-and-statistics/monthly-statistical-bulletin/financial/monetary-statistics/" [ref=f1e699] [cursor=pointer]:
+                        - /url: https://apidocs.hkma.gov.hk/gb_chi/documentation/market-data-and-statistics/monthly-statistical-bulletin/financial/monetary-statistics/
+                - listitem [ref=f1e700]: 数据更新：每月初发布上月数据
+            - listitem [ref=f1e701]:
+              - strong [ref=f1e702]: 内地 PPI 当月同比
+              - list [ref=f1e703]:
+                - listitem [ref=f1e704]: 官方来源：国家统计局官网，每月发布的《工业生产者出厂价格指数》
+                - listitem [ref=f1e705]:
+                  - text: 直接获取：
+                  - list [ref=f1e706]:
+                    - listitem [ref=f1e707]:
+                      - text: 官网链接：
+                      - link "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/" [ref=f1e708] [cursor=pointer]:
+                        - /url: https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/
+                    - listitem [ref=f1e709]:
+                      - text: 数据查询：
+                      - link "https://data.stats.gov.cn/easyquery.htm?cn=C01" [ref=f1e710] [cursor=pointer]:
+                        - /url: https://data.stats.gov.cn/easyquery.htm?cn=C01
+                      - text: （月度数据→价格指数）
+                - listitem [ref=f1e711]: 数据更新：每月 9-11 日发布上月数据
+            - listitem [ref=f1e712]:
+              - strong [ref=f1e713]: 内地社零当月同比
+              - list [ref=f1e714]:
+                - listitem [ref=f1e715]: 官方来源：国家统计局官网，每月发布的《社会消费品零售总额》
+                - listitem [ref=f1e716]:
+                  - text: 直接获取：
+                  - list [ref=f1e717]:
+                    - listitem [ref=f1e718]:
+                      - text: 官网链接：
+                      - link "https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/" [ref=f1e719] [cursor=pointer]:
+                        - /url: https://www.stats.gov.cn/xxgk/sjfb/zxfb2020/
+                    - listitem [ref=f1e720]:
+                      - text: 数据查询：
+                      - link "https://data.stats.gov.cn/easyquery.htm?cn=C01" [ref=f1e721] [cursor=pointer]:
+                        - /url: https://data.stats.gov.cn/easyquery.htm?cn=C01
+                      - text: （月度数据→社会消费品零售总额）
+                - listitem [ref=f1e722]: 数据更新：每月 15-17 日发布上月数据
+            - listitem [ref=f1e723]:
+              - strong [ref=f1e724]: 信用脉冲
+              - list [ref=f1e725]:
+                - listitem [ref=f1e726]:
+                  - text: 核心数据来源：
+                  - list [ref=f1e727]:
+                    - listitem [ref=f1e728]:
+                      - text: 社融数据：优先合并 AkShare/商务部历史序列，并从中国人民银行官网
+                      - link "《社会融资规模增量统计表》" [ref=f1e729] [cursor=pointer]:
+                        - /url: https://www.pbc.gov.cn/diaochatongjisi/116219/116319/index.html
+                      - text: 覆盖已发布月份。
+                    - listitem [ref=f1e730]:
+                      - text: GDP 数据：AkShare 提供历史季度序列；国家统计局
+                      - link "《国内生产总值初步核算结果》" [ref=f1e731] [cursor=pointer]:
+                        - /url: https://data.stats.gov.cn/dg/website/page.html#/pc/national/quarterData
+                      - text: 表中的单季现价 GDP 绝对额用于覆盖近期季度。
+                - listitem [ref=f1e732]:
+                  - text: 数据更新：
+                  - list [ref=f1e733]:
+                    - listitem [ref=f1e734]: 社融：每月 10-15 日发布上月数据
+                    - listitem [ref=f1e735]: GDP：一般于季后 15 日左右发布上季度初步核算数据；月末计算时不使用尚未发布季度。
+          - heading "二、信用脉冲的详细计算步骤" [level=2] [ref=f1e736]
+          - paragraph [ref=f1e737]: 根据视频和公开资料，信用脉冲的计算分为 4 步：
+          - list [ref=f1e738]:
+            - listitem [ref=f1e739]:
+              - strong [ref=f1e740]: 计算最近 6 个月社融增量之和
+              - text: ：
+              - paragraph [ref=f1e741]: 例如，2026 年 10 月的信用脉冲，需要计算 2026 年 5 月 - 10 月的社融增量总和。
+            - listitem [ref=f1e742]:
+              - strong [ref=f1e743]: 计算去年同期 6 个月社融增量之和
+              - text: ：
+              - paragraph [ref=f1e744]: 即 2025 年 5 月 - 10 月的社融增量总和。
+            - listitem [ref=f1e745]:
+              - strong [ref=f1e746]: 计算差值
+              - text: ：
+              - paragraph [ref=f1e747]: 差值 = 最近 6 个月社融增量之和 - 去年同期 6 个月社融增量之和
+            - listitem [ref=f1e748]:
+              - strong [ref=f1e749]: 计算信用脉冲
+              - text: ：
+              - paragraph [ref=f1e750]: 信用脉冲 = 差值 ÷ 截至计算月份月末已发布的最近两个季度名义 GDP 之和 × 100
+  - contentinfo [ref=f1e674]:
+    - generic [ref=f1e675]: 港股领航指标 · 数据分析工作台
+    - generic [ref=f1e676]: 指标逻辑及历史数据来自计算模板；实际数据以官方发布为准。

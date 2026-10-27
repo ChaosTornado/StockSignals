@@ -1,0 +1,167 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - link "港股领航指标首页" [ref=e4] [cursor=pointer]:
+      - /url: "#"
+      - generic [ref=e9]:
+        - strong [ref=e10]: 港股领航指标
+        - generic [ref=e11]: HONG KONG LEADING INDICATOR
+    - generic [ref=e12]:
+      - generic [ref=e13]: CSV 读取失败，当前为模板数据
+      - link "指标总览" [ref=e15] [cursor=pointer]:
+        - /url: "#overview"
+      - link "数据录入" [ref=e16] [cursor=pointer]:
+        - /url: "#data-entry"
+      - button "导出 CSV" [ref=e17] [cursor=pointer]
+  - main [ref=e20]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - generic [ref=e23]: 宏观趋势 · 月度观察
+        - heading "港股领航指标" [level=1] [ref=e25]
+        - paragraph [ref=e26]: 综合香港流动性与内地基本面，辅助观察恒生指数的中长期拐点。
+      - generic [ref=e27]:
+        - generic [ref=e28]: 数据覆盖
+        - strong [ref=e29]: 暂无数据
+        - generic [ref=e30]: 尚无模板数据
+    - region "指标摘要" [ref=e31]:
+      - article [ref=e32]:
+        - generic [ref=e33]:
+          - generic [ref=e34]: 最新领航指标
+          - generic [ref=e35]: ↗
+        - generic [ref=e36]: —
+        - generic [ref=e37]:
+          - generic [ref=e38]: 等待完整月度数据
+          - generic [ref=e39]: 四项等权
+      - article [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]: 当前顶底信号
+          - generic [ref=e44]: 待积累
+        - generic [ref=e45]: 待积累
+        - generic [ref=e46]: 至少需要两个月完整数据
+        - generic [ref=e49]:
+          - generic [ref=e50]: 下界 —
+          - generic [ref=e51]: 上界 —
+      - article [ref=e52]:
+        - generic [ref=e53]:
+          - generic [ref=e54]: 恒生指数 · 月末
+          - generic [ref=e55]: ▥
+        - generic [ref=e56]: —
+        - generic [ref=e57]:
+          - generic [ref=e58]: 暂无收盘数据
+          - generic [ref=e59]: 点
+        - generic [ref=e60]: 模板历史月末收盘价
+      - article [ref=e61]:
+        - generic [ref=e62]:
+          - generic [ref=e63]: 有效样本
+          - generic [ref=e64]: ◌
+        - generic [ref=e65]: 0个月
+        - generic [ref=e66]:
+          - generic [ref=e67]: 均值 —
+          - generic [ref=e68]: 标准差 —
+        - generic [ref=e69]: 建议至少积累 24 个月
+    - region [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - generic [ref=e73]: MARKET CYCLE
+          - heading "领航指标与恒生指数" [level=2] [ref=e74]
+          - paragraph [ref=e75]: 标准化领航指标（左轴）与恒生指数月末收盘（右轴）
+        - generic [ref=e76]:
+          - group "图表时间范围" [ref=e77]:
+            - button "1 年" [ref=e78] [cursor=pointer]
+            - button "3 年" [ref=e79] [cursor=pointer]
+            - button "全部" [ref=e80] [cursor=pointer]
+          - generic [ref=e81]:
+            - text: 阈值系数
+            - spinbutton "阈值系数" [ref=e82]: "0.5"
+            - generic [ref=e83]: σ
+      - generic [ref=e84]:
+        - generic [ref=e85]: 标准化领航指标
+        - generic [ref=e87]: 恒生指数
+        - generic [ref=e89]: 警惕顶部
+        - generic [ref=e91]: 关注底部
+      - img "标准化领航指标和恒生指数的月度趋势图" [ref=e94]:
+        - generic [ref=e95]: 录入至少两个月完整指标后显示趋势图
+      - generic [ref=e96]:
+        - generic [ref=e97]: 水平虚线为信号阈值；标准分以当前有效样本的均值和样本标准差计算。
+        - generic [ref=e98]: 等待更多有效数据
+    - generic [ref=e99]:
+      - article [ref=e100]:
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]: MODEL
+            - heading "指标构成" [level=2] [ref=e104]
+          - generic [ref=e105]: 每项 25%
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - generic [ref=e108]: 流
+            - generic [ref=e109]:
+              - strong [ref=e110]: 港元 M2 同比
+              - generic [ref=e111]: 香港市场流动性
+            - generic [ref=e112]: 25%
+          - generic [ref=e113]:
+            - generic [ref=e114]: 价
+            - generic [ref=e115]:
+              - strong [ref=e116]: 内地 PPI 当月同比
+              - generic [ref=e117]: 工业价格与景气度
+            - generic [ref=e118]: 25%
+          - generic [ref=e119]:
+            - generic [ref=e120]: 需
+            - generic [ref=e121]:
+              - strong [ref=e122]: 内地社零当月同比
+              - generic [ref=e123]: 消费需求变化
+            - generic [ref=e124]: 25%
+          - generic [ref=e125]:
+            - generic [ref=e126]: 信
+            - generic [ref=e127]:
+              - strong [ref=e128]: 信用脉冲
+              - generic [ref=e129]: 信贷扩张 / 收缩力度
+            - generic [ref=e130]: 25%
+        - generic [ref=e131]:
+          - generic [ref=e132]: 计算方式
+          - strong [ref=e133]: 领航指标 = 四项指标的等权平均
+          - generic [ref=e134]: 需当月四项数据齐全后纳入计算
+      - article [ref=e135]:
+        - generic [ref=e136]:
+          - generic [ref=e137]:
+            - generic [ref=e138]: SIGNAL HISTORY
+            - heading "近期信号" [level=2] [ref=e139]
+          - link "查看数据 ↗" [ref=e140] [cursor=pointer]:
+            - /url: "#data-entry"
+        - generic [ref=e141]: 目前没有触发顶底阈值的月份
+        - generic [ref=e143]:
+          - generic [ref=e144]: i
+          - generic [ref=e145]: 信号通常领先恒指走势 1–9 个月，仅供观察市场周期，不构成投资建议。
+    - region [ref=e146]:
+      - generic [ref=e147]:
+        - generic [ref=e148]:
+          - generic [ref=e149]: MONTHLY INPUTS
+          - heading "月度数据录入" [level=2] [ref=e150]
+          - paragraph [ref=e151]: 直接修改黄色单元格，指标、统计基准与顶底信号会自动重算。
+        - generic [ref=e152]:
+          - searchbox "搜索月份" [ref=e157]
+          - generic [ref=e158]:
+            - checkbox "只看信号月份" [ref=e159]
+            - generic [ref=e160]: 只看信号月份
+      - generic [ref=e161]:
+        - generic [ref=e162]: 可编辑数据 自动计算
+        - generic [ref=e165]: 显示 0 / 0 个月
+      - table [ref=e167]:
+        - rowgroup [ref=e168]:
+          - row [ref=e169]:
+            - columnheader "月份" [ref=e170]
+            - columnheader "港元 M2 同比 %" [ref=e171]
+            - columnheader "内地 PPI 同比 %" [ref=e172]
+            - columnheader "内地社零同比 %" [ref=e173]
+            - columnheader "信用脉冲 %" [ref=e174]
+            - columnheader "领航指标 %" [ref=e175]
+            - columnheader "顶底信号" [ref=e176]
+            - columnheader "恒生指数 点" [ref=e177]
+        - rowgroup [ref=e178]:
+          - row [ref=e179]:
+            - cell "没有符合条件的月份" [ref=e180]
+      - generic [ref=e181]:
+        - button "查看全部月份" [ref=e182] [cursor=pointer]
+        - generic [ref=e183]: 留空数据不参与指标计算。修改内容保存在当前浏览器。
+        - button "重新读取 CSV" [ref=e184] [cursor=pointer]
+  - contentinfo [ref=e185]:
+    - generic [ref=e186]: 港股领航指标 · 数据分析工作台
+    - generic [ref=e187]: 指标逻辑及历史数据来自计算模板；实际数据以官方发布为准。
