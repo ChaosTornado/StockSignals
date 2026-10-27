@@ -1,0 +1,31 @@
+# Python bytecode and test/tool caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local Python environments
+.venv/
+venv/
+env/
+
+# Local secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+.aws/
+.codex/
+.agents/
+
+# Browser testing artifacts
+.playwright-cli/
+output/playwright/
+
+# Temporary files and logs
+*.log
+data/.data-*.csv
+.DS_Store
+Thumbs.db
