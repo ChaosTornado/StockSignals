@@ -458,9 +458,12 @@ def merge_social_financing(*sources):
     """Merge monthly financing records, letting later official sources override."""
     merged = {}
     for source in sources:
-        if not source:
+        if source is None:
             continue
-        values = indexed_values(source, ("社会融资规模增量",), ("月份", "时间", "日期"))
+        rows = records(source)
+        if not rows:
+            continue
+        values = indexed_values(rows, ("社会融资规模增量",), ("月份", "时间", "日期"))
         merged.update(values)
     return merged
 

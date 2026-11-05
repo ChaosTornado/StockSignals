@@ -178,6 +178,27 @@ class MacroDataTests(unittest.TestCase):
             {"2026-04": 12000.0, "2026-05": 20293.0, "2026-06": 33671.0},
         )
 
+    def test_social_financing_accepts_frames_without_boolean_evaluation(self):
+        # Match Pandas' behavior without requiring network adapter dependencies.
+        class Frame:
+            def __init__(self, rows):
+                self.rows = rows
+
+            def __bool__(self):
+                raise ValueError("The truth value of a DataFrame is ambiguous")
+
+            def to_dict(self, orient):
+                if orient != "records":
+                    raise AssertionError(orient)
+                return self.rows
+
+        historical = Frame([{"月份": "202605", "社会融资规模增量": 12000}])
+        official = [{"月份": "202605", "社会融资规模增量": 20293}]
+        self.assertEqual(
+            macro_data.merge_social_financing(None, Frame([]), [], historical, official),
+            {"2026-05": 20293.0},
+        )
+
     def test_pbc_html_parser_reads_monthly_increment(self):
         content = """<table><tr><td>2026.05</td><td>20293</td></tr>
         <tr><td>2026.06</td><td>33671</td></tr></table>""".encode("gb2312")
